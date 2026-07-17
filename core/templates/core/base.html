@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}TG-Technology | Soluciones Digitales{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'images/tg2.png' %}">
+
+    <meta
+        name="description"
+        content="Creamos páginas web, sistemas a medida y soluciones de análisis de datos para pymes y empresas."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+
+<body>
+    {% include "core/sections/header.html" %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include "core/sections/footer.html" %}
+    <script src="{% static 'js/technologies.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+
+    
+</body>
+</html>

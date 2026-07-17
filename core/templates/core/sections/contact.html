@@ -1,0 +1,201 @@
+<section class="contact-section" id="contacto">
+    <div class="container">
+
+        <div class="contact-shell">
+
+            <div class="contact-information">
+                <span class="section-label">
+                    Conversemos
+                </span>
+
+                <h2>
+                    Cuéntame qué necesita tu empresa
+                </h2>
+
+                <p class="contact-intro">
+                    Completa el formulario con una breve descripción de tu idea.
+                    Revisaré la información y me pondré en contacto contigo para
+                    comprender mejor el proyecto.
+                </p>
+
+                <div class="contact-options">
+
+                    <a
+                        href="mailto:contacto@tg-technology.cl"
+                        class="contact-option"
+                    >
+                        <span class="contact-option-icon">@</span>
+
+                        <span>
+                            <small>Correo</small>
+                            <strong>contacto@tg-technology.cl</strong>
+                        </span>
+                    </a>
+
+                    <a
+                        href="tel:+56953097689"
+                        class="contact-option"
+                    >
+                        <span class="contact-option-icon">☎</span>
+
+                        <span>
+                            <small>Teléfono</small>
+                            <strong>+56 9 5309 7689</strong>
+                        </span>
+                    </a>
+
+                    <div class="contact-option">
+                        <span class="contact-option-icon">⌖</span>
+
+                        <span>
+                            <small>Atención</small>
+                            <strong>Chile · Modalidad remota</strong>
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="contact-assurance">
+                    <span>✓</span>
+
+                    <p>
+                        Recibirás una respuesta inicial para evaluar necesidades,
+                        alcance, plazos y próximos pasos.
+                    </p>
+                </div>
+            </div>
+
+            <div class="contact-form-wrapper">
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="form-message form-message-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" class="contact-form">
+                    {% csrf_token %}
+
+                    <div class="form-heading">
+                        <h3>Solicita una evaluación</h3>
+
+                        <p>
+                            Los campos marcados con * son obligatorios.
+                        </p>
+                    </div>
+
+                    {% if contact_form.non_field_errors %}
+                        <div class="form-message form-message-error">
+                            {{ contact_form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-grid">
+
+                        <div class="form-field">
+                            <label for="{{ contact_form.name.id_for_label }}">
+                                Nombre *
+                            </label>
+
+                            {{ contact_form.name }}
+
+                            {% for error in contact_form.name.errors %}
+                                <small class="field-error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-field">
+                            <label for="{{ contact_form.company.id_for_label }}">
+                                Empresa
+                            </label>
+
+                            {{ contact_form.company }}
+
+                            {% for error in contact_form.company.errors %}
+                                <small class="field-error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-field">
+                            <label for="{{ contact_form.email.id_for_label }}">
+                                Correo electrónico *
+                            </label>
+
+                            {{ contact_form.email }}
+
+                            {% for error in contact_form.email.errors %}
+                                <small class="field-error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-field">
+                            <label for="{{ contact_form.phone.id_for_label }}">
+                                Teléfono
+                            </label>
+
+                            {{ contact_form.phone }}
+
+                            {% for error in contact_form.phone.errors %}
+                                <small class="field-error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-field">
+                            <label for="{{ contact_form.service.id_for_label }}">
+                                ¿Qué solución necesitas? *
+                            </label>
+
+                            {{ contact_form.service }}
+
+                            {% for error in contact_form.service.errors %}
+                                <small class="field-error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-field">
+                            <label for="{{ contact_form.budget.id_for_label }}">
+                                Presupuesto aproximado
+                            </label>
+
+                            {{ contact_form.budget }}
+
+                            {% for error in contact_form.budget.errors %}
+                                <small class="field-error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-field form-field-full">
+                            <label for="{{ contact_form.message.id_for_label }}">
+                                Cuéntame sobre tu proyecto *
+                            </label>
+
+                            {{ contact_form.message }}
+
+                            {% for error in contact_form.message.errors %}
+                                <small class="field-error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="button button-primary contact-submit"
+                    >
+                        Enviar solicitud
+                        <span>→</span>
+                    </button>
+
+                    <p class="form-privacy">
+                        Al enviar este formulario autorizas el uso de tus datos
+                        únicamente para responder a esta solicitud.
+                    </p>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</section>
