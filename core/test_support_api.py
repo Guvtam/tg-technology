@@ -41,10 +41,9 @@ class SupportFormFlowTests(TestCase):
 
     @patch("core.views.registrar_ticket", return_value="TCK-2026-00001")
     def test_success_displays_ticket_code(self, registrar):
-        response = self.client.post(self.url, self.data)
+        response = self.client.post(self.url, self.data, follow=True)
         self.assertRedirects(response, self.url)
-        page = self.client.get(self.url)
-        self.assertContains(page, "TCK-2026-00001")
+        self.assertContains(response, "TCK-2026-00001")
         registrar.assert_called_once()
 
     @patch("core.views.registrar_ticket", side_effect=SupportAPIError("cliente_no_reconocido"))
