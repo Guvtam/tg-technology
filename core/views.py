@@ -116,8 +116,9 @@ def soporte(request):
                     logger.warning("TG Management no confirmó el ticket de soporte")
                     form.add_error(None, "No pudimos confirmar el ticket. Intenta nuevamente.")
             else:
-                messages.success(request, f"Recibimos tu solicitud de soporte. Tu número de ticket es {codigo}.")
+                request.session["support_ticket_confirmed"] = codigo
                 return redirect("core:soporte")
     else:
         form = SoporteWebForm(initial={"referencia": uuid4()})
-    return render(request, "core/soporte.html", {"form": form})
+    confirmado = request.session.pop("support_ticket_confirmed", None) if request.method == "GET" else None
+    return render(request, "core/soporte.html", {"form": form, "ticket_confirmado": confirmado})
