@@ -1,37 +1,95 @@
 {% extends "core/base.html" %}
-{% block title %}Soporte | TG Technology{% endblock %}
+{% block title %}Centro de soporte | TG Technology{% endblock %}
 {% block content %}
-<section class="contact-section">
-    <div class="container">
-        <div class="contact-form-wrapper soporte-web-card">
-            {% for message in messages %}
-                {% if "contact-confirmation" not in message.extra_tags %}
-                    <p role="status" class="form-message">{{ message }}</p>
-                {% endif %}
-            {% endfor %}
-            <h1>Solicita soporte</h1>
-            <p>¿Necesitas ayuda con uno de nuestros servicios? Completa los datos y recibirás un número de seguimiento cuando confirmemos tu solicitud.</p>
-            <p>Utiliza el correo asociado a tu cuenta de cliente. Los campos son obligatorios.</p>
-            <form method="post" class="contact-form">
-                {% csrf_token %}
-                {{ form.referencia }}
-                {{ form.referencia.errors }}
-                {% for error in form.non_field_errors %}
-                    <p class="field-error" role="alert">{{ error }}</p>
-                {% endfor %}
-                <div class="form-grid">
-                    {% for field in form.visible_fields %}
-                        <div class="form-field{% if field.name == 'titulo' or field.name == 'descripcion' %} form-field-full{% endif %}">
-                            {{ field.label_tag }}
-                            {{ field }}
-                            {{ field.errors }}
-                        </div>
-                    {% endfor %}
-                </div>
-                <p>El impacto indicado nos ayuda a organizar la atención. La prioridad final será revisada por nuestro equipo.</p>
-                <button type="submit" class="button button-primary contact-submit">Enviar solicitud de soporte</button>
-            </form>
+<section class="contact-section support-page">
+  <div class="container support-layout">
+    <aside class="support-aside">
+      <span class="support-eyebrow">ATENCIÓN A CLIENTES</span>
+      <h1>Estamos aquí para ayudarte.</h1>
+      <p>Cuéntanos qué sucede con tu servicio. Registraremos tu solicitud en nuestro sistema de gestión y te entregaremos un número de seguimiento.</p>
+      <div class="support-steps" aria-label="Cómo funciona">
+        <div><span>01</span><p><strong>Describe tu solicitud</strong><small>Indica el servicio, el problema y su impacto.</small></p></div>
+        <div><span>02</span><p><strong>Registramos tu ticket</strong><small>Lo vinculamos a tu cuenta de cliente.</small></p></div>
+        <div><span>03</span><p><strong>Realizamos seguimiento</strong><small>Nuestro equipo revisará tu caso.</small></p></div>
+      </div>
+      <p class="support-aside-note">Este formulario es para clientes con servicios activos. Para proyectos nuevos, utiliza el formulario de contacto.</p>
+    </aside>
+    <div class="contact-form-wrapper support-form-card">
+      {% if ticket_confirmado %}
+        <div class="support-success" role="status">
+          <span class="support-success-icon" aria-hidden="true">✓</span>
+          <span class="support-eyebrow">SOLICITUD REGISTRADA</span>
+          <h2>¡Recibimos tu solicitud!</h2>
+          <p>Tu caso quedó registrado en TG Management. Conserva este número para futuras consultas.</p>
+          <div class="support-ticket-code"><span>NÚMERO DE TICKET</span><strong>{{ ticket_confirmado }}</strong></div>
+          <p>El equipo revisará los antecedentes y se comunicará contigo a través de los canales registrados.</p>
+          <a class="button button-primary contact-submit" href="{% url 'core:soporte' %}">Crear otra solicitud</a>
         </div>
+      {% else %}
+        <div class="support-form-heading">
+          <span class="support-eyebrow">NUEVO TICKET</span>
+          <h2>Solicitar soporte técnico</h2>
+          <p>Completa los datos para que podamos identificar tu servicio y atender tu solicitud.</p>
+        </div>
+        {% for message in messages %}
+          {% if "contact-confirmation" not in message.extra_tags %}<p class="form-message" role="status">{{ message }}</p>{% endif %}
+        {% endfor %}
+        <form method="post" class="contact-form support-form" id="support-request-form">
+          {% csrf_token %}
+          {{ form.referencia }}
+          {% for error in form.referencia.errors %}<p class="field-error" role="alert">{{ error }}</p>{% endfor %}
+          {% if form.non_field_errors %}<div class="support-alert" role="alert"><strong>No pudimos registrar tu solicitud.</strong>{% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}</div>{% endif %}
+          <fieldset class="support-fieldset">
+            <legend><span>01</span> Datos de contacto</legend>
+            <p class="support-section-hint">Utiliza el correo asociado a tu cuenta de cliente.</p>
+            <div class="form-grid">
+              {% for field in form.visible_fields %}
+                {% if field.name == 'nombre' or field.name == 'correo' %}
+                  <div class="form-field">
+                    <label for="{{ field.id_for_label }}">{{ field.label }} <span aria-hidden="true">*</span></label>
+                    {{ field }}
+                    {% for error in field.errors %}<p class="field-error" role="alert">{{ error }}</p>{% endfor %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </fieldset>
+          <fieldset class="support-fieldset">
+            <legend><span>02</span> Detalle de la solicitud</legend>
+            <div class="form-grid">
+              {% for field in form.visible_fields %}
+                {% if field.name == 'categoria' or field.name == 'impacto' or field.name == 'titulo' or field.name == 'descripcion' %}
+                  <div class="form-field{% if field.name == 'titulo' or field.name == 'descripcion' %} form-field-full{% endif %}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }} <span aria-hidden="true">*</span></label>
+                    {{ field }}
+                    {% if field.name == 'impacto' %}<small class="support-help">Selecciona el impacto real; nuestro equipo revisará la prioridad.</small>{% endif %}
+                    {% if field.name == 'descripcion' %}<small class="support-help">Indica qué ocurre, desde cuándo y qué resultado esperabas.</small>{% endif %}
+                    {% for error in field.errors %}<p class="field-error" role="alert">{{ error }}</p>{% endfor %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </fieldset>
+          <div class="support-form-footer">
+            <p>Al enviar, intentaremos registrar tu solicitud en TG Management. Si ocurre un problema, podrás corregirla y volver a intentar.</p>
+            <button type="submit" class="button button-primary contact-submit" id="support-submit">Registrar solicitud <span aria-hidden="true">→</span></button>
+          </div>
+        </form>
+      {% endif %}
     </div>
+  </div>
 </section>
+{% endblock %}
+{% block extra_js %}
+<script>
+(function () {
+  const form = document.getElementById("support-request-form");
+  if (!form) return;
+  form.addEventListener("submit", function () {
+    if (!form.checkValidity()) return;
+    const button = document.getElementById("support-submit");
+    if (button) { button.disabled = true; button.textContent = "Registrando solicitud…"; }
+  });
+})();
+</script>
 {% endblock %}
