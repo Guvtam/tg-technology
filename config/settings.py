@@ -153,3 +153,7 @@ CONTACT_WHATSAPP = {
 
 # Local Windows integration between the two sibling projects.
 TG_SUPPORT_CRM_DIR = Path(os.getenv("TG_SUPPORT_CRM_DIR", BASE_DIR.parent / "tg-management"))
+
+# API privada de TG Management (HTTPS en producción).
+TG_SUPPORT_API_URL = os.getenv("TG_SUPPORT_API_URL", "")
+TG_SUPPORT_API_TOKEN = os.getenv("TG_SUPPORT_API_TOKEN", "")
