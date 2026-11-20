@@ -28,3 +28,36 @@ class SupportAPITests(SimpleTestCase):
     def test_rejects_missing_configuration(self):
         with self.assertRaises(SupportAPIError):
             registrar_ticket({})
+
+
+class SupportFormFlowTests(SimpleTestCase):
+    def setUp(self):
+        self.url = reverse("core:soporte")
+        self.data = {
+            "referencia": str(uuid4()), "nombre": "Ana Prueba",
+            "correo": "ana@example.com", "titulo": "Problema de acceso",
+            "descripcion": "No puedo ingresar al sistema.",
+        }
+
+    @patch("core.views.registrar_ticket", return_value="TCK-2026-00001")
+    def test_success_displays_ticket_code(self, registrar):
+        response = self.client.post(self.url, self.data)
+        self.assertRedirects(response, self.url)
+        page = self.client.get(self.url)
+        self.assertContains(page, "TCK-2026-00001")
+        registrar.assert_called_once()
+
+    @patch("core.views.registrar_ticket", side_effect=SupportAPIError("cliente_no_reconocido"))
+    def test_unknown_customer_shows_field_error(self, registrar):
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No encontramos un cliente activo")
+        registrar.assert_called_once()
+
+    @patch("core.views.registrar_ticket", side_effect=SupportAPIError())
+    def test_network_failure_keeps_reference_for_retry(self, registrar):
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No pudimos confirmar el ticket")
+        self.assertContains(response, self.data["referencia"])
+        registrar.assert_called_once()
