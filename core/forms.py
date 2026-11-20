@@ -57,5 +57,7 @@ class SoporteWebForm(forms.Form):
     referencia = forms.UUIDField(widget=forms.HiddenInput)
     nombre = forms.CharField(label="Nombre", max_length=120)
     correo = forms.EmailField(label="Correo electrónico")
+    categoria = forms.ChoiceField(label="Tipo de solicitud", choices=[("incidente", "Error o incidente"), ("solicitud_cambio", "Solicitud de cambio"), ("duda", "Consulta"), ("mantencion", "Mantención"), ("otro", "Otro")])
+    impacto = forms.ChoiceField(label="Impacto del problema", choices=[("bajo", "Bajo: puedo seguir trabajando"), ("medio", "Medio: afecta algunas funciones"), ("alto", "Alto: no puedo utilizar el servicio")])
     titulo = forms.CharField(label="Asunto", max_length=200)
     descripcion = forms.CharField(label="Describe el problema", max_length=5000, widget=forms.Textarea(attrs={"rows": 5}))
