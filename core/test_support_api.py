@@ -2,7 +2,7 @@ import json
 from unittest.mock import patch
 from uuid import uuid4
 
-from django.test import SimpleTestCase, override_settings
+from django.test import SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 
 from core.support_api import SupportAPIError, registrar_ticket
@@ -30,7 +30,7 @@ class SupportAPITests(SimpleTestCase):
             registrar_ticket({})
 
 
-class SupportFormFlowTests(SimpleTestCase):
+class SupportFormFlowTests(TestCase):
     def setUp(self):
         self.url = reverse("core:soporte")
         self.data = {
