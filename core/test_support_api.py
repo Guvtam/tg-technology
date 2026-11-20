@@ -59,5 +59,5 @@ class SupportFormFlowTests(TestCase):
         response = self.client.post(self.url, self.data)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No pudimos confirmar el ticket")
-        self.assertContains(response, self.data["referencia"])
+        self.assertEqual(str(response.context["form"]["referencia"].value()), self.data["referencia"])
         registrar.assert_called_once()
