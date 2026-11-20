@@ -132,3 +132,13 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", str(not EMAIL_USE_SSL)).lower() == "t
 EMAIL_TIMEOUT = 10
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER or "contacto@tg-technology.cl")
 CONTACT_NOTIFICATION_EMAIL = os.getenv("CONTACT_NOTIFICATION_EMAIL", "contacto@tg-technology.cl")
+
+# Optional WhatsApp Cloud API notification to the business.
+CONTACT_WHATSAPP = {
+    "version": os.getenv("CONTACT_WHATSAPP_VERSION", ""),
+    "phone_id": os.getenv("CONTACT_WHATSAPP_PHONE_ID", ""),
+    "token": os.getenv("CONTACT_WHATSAPP_TOKEN", ""),
+    "recipient": os.getenv("CONTACT_WHATSAPP_RECIPIENT", ""),
+    "template": os.getenv("CONTACT_WHATSAPP_TEMPLATE", ""),
+    "language": os.getenv("CONTACT_WHATSAPP_LANGUAGE", "es"),
+}

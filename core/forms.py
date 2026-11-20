@@ -13,7 +13,6 @@ class ContactRequestForm(forms.ModelForm):
             "email",
             "phone",
             "service",
-            "budget",
             "message",
         ]
 
@@ -26,13 +25,13 @@ class ContactRequestForm(forms.ModelForm):
             ),
             "company": forms.TextInput(
                 attrs={
-                    "placeholder": "Nombre de tu empresa",
+                    "placeholder": "Ej. Taller Los Andes",
                     "autocomplete": "organization",
                 }
             ),
             "email": forms.EmailInput(
                 attrs={
-                    "placeholder": "correo@empresa.cl",
+                    "placeholder": "nombre@ejemplo.cl",
                     "autocomplete": "email",
                 }
             ),
@@ -43,16 +42,6 @@ class ContactRequestForm(forms.ModelForm):
                 }
             ),
             "service": forms.Select(),
-            "budget": forms.Select(
-                choices=[
-                    ("", "Selecciona un rango"),
-                    ("menos-300", "Menos de $300.000"),
-                    ("300-600", "$300.000 a $600.000"),
-                    ("600-1000", "$600.000 a $1.000.000"),
-                    ("mas-1000", "Más de $1.000.000"),
-                    ("evaluar", "Necesito orientación"),
-                ]
-            ),
             "message": forms.Textarea(
                 attrs={
                     "placeholder": (

@@ -24,3 +24,12 @@ Configura estas variables en el entorno del servidor:
 | `CONTACT_NOTIFICATION_EMAIL` | Buzón receptor, por defecto `contacto@tg-technology.cl` |
 
 Envía una consulta de prueba y verifica tanto el registro en el panel de administración como la llegada al buzón. Si SMTP falla, la consulta queda guardada y el error aparece en los registros de la aplicación. Revisa el panel mientras resuelves la incidencia. El envío fallido requiere seguimiento manual.
+
+## Aviso opcional por WhatsApp
+
+Configura `CONTACT_WHATSAPP_VERSION`, `CONTACT_WHATSAPP_PHONE_ID`,
+`CONTACT_WHATSAPP_TOKEN`, `CONTACT_WHATSAPP_RECIPIENT` (número del negocio
+en formato internacional), `CONTACT_WHATSAPP_TEMPLATE` y, si corresponde,
+`CONTACT_WHATSAPP_LANGUAGE` (por defecto `es`). Usa una plantilla aprobada
+por Meta con un parámetro de texto en el cuerpo para el número de solicitud.
+Sin esta configuración, se omite el aviso de WhatsApp.

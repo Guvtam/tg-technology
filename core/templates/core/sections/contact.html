@@ -9,7 +9,7 @@
                 </span>
 
                 <h2>
-                    Cuéntame qué necesita tu empresa
+                    Cuéntame qué necesita tu negocio
                 </h2>
 
                 <p class="contact-intro">
@@ -67,15 +67,7 @@
 
             <div class="contact-form-wrapper">
 
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="form-message form-message-success">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-
-                <form method="post" class="contact-form">
+                <form method="post" action="{% url 'core:home' %}#contacto" class="contact-form">
                     {% csrf_token %}
 
                     <div class="form-heading">
@@ -108,7 +100,7 @@
 
                         <div class="form-field">
                             <label for="{{ contact_form.company.id_for_label }}">
-                                Empresa
+                                Nombre de tu negocio
                             </label>
 
                             {{ contact_form.company }}
@@ -142,7 +134,7 @@
                             {% endfor %}
                         </div>
 
-                        <div class="form-field">
+                        <div class="form-field form-field-full">
                             <label for="{{ contact_form.service.id_for_label }}">
                                 ¿Qué solución necesitas? *
                             </label>
@@ -150,18 +142,6 @@
                             {{ contact_form.service }}
 
                             {% for error in contact_form.service.errors %}
-                                <small class="field-error">{{ error }}</small>
-                            {% endfor %}
-                        </div>
-
-                        <div class="form-field">
-                            <label for="{{ contact_form.budget.id_for_label }}">
-                                Presupuesto aproximado
-                            </label>
-
-                            {{ contact_form.budget }}
-
-                            {% for error in contact_form.budget.errors %}
                                 <small class="field-error">{{ error }}</small>
                             {% endfor %}
                         </div>
@@ -179,6 +159,8 @@
                         </div>
 
                     </div>
+
+                    <p class="contact-feedback" role="status" hidden></p>
 
                     <button
                         type="submit"

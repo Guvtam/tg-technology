@@ -1,0 +1,65 @@
+dialog.contact-confirmation {
+    box-sizing: border-box;
+    position: fixed;
+    inset: 0;
+    width: min(440px, calc(100% - 32px));
+    max-height: calc(100% - 32px);
+    margin: auto;
+    padding: clamp(24px, 5vw, 38px);
+    overflow: auto;
+    border: 1px solid #d9e8ee;
+    border-radius: 24px;
+    background: #fff;
+    color: #101a2e;
+    text-align: center;
+    box-shadow: 0 24px 70px rgb(10 23 41 / 28%);
+}
+
+dialog.contact-confirmation:not([open]) {
+    display: none;
+}
+
+.contact-confirmation::backdrop {
+    background: rgb(12 26 45 / 66%);
+}
+
+.contact-confirmation-icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #dcf8f1;
+    color: #08766d;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.contact-confirmation h2 {
+    margin: 0 0 12px;
+    font-size: clamp(23px, 6vw, 29px);
+    line-height: 1.2;
+}
+
+.contact-confirmation p {
+    margin: 0 0 24px;
+    color: #43546b;
+    line-height: 1.6;
+}
+
+.contact-confirmation .button {
+    width: 100%;
+}
+
+.contact-feedback,
+.contact-fallback {
+    margin: 16px 0;
+    color: #94352d;
+}
+
+.contact-fallback {
+    padding: 16px;
+    background: #dcf8f1;
+    color: #145751;
+}
