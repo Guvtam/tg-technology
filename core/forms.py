@@ -52,3 +52,10 @@ class ContactRequestForm(forms.ModelForm):
                 }
             ),
         }
+
+class SoporteWebForm(forms.Form):
+    referencia = forms.UUIDField(widget=forms.HiddenInput)
+    nombre = forms.CharField(label="Nombre", max_length=120)
+    correo = forms.EmailField(label="Correo electrónico")
+    titulo = forms.CharField(label="Asunto", max_length=200)
+    descripcion = forms.CharField(label="Describe el problema", max_length=5000, widget=forms.Textarea(attrs={"rows": 5}))

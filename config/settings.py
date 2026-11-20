@@ -142,3 +142,6 @@ CONTACT_WHATSAPP = {
     "template": os.getenv("CONTACT_WHATSAPP_TEMPLATE", ""),
     "language": os.getenv("CONTACT_WHATSAPP_LANGUAGE", "es"),
 }
+
+# Local Windows integration between the two sibling projects.
+TG_SUPPORT_CRM_DIR = Path(os.getenv("TG_SUPPORT_CRM_DIR", BASE_DIR.parent / "tg-management"))

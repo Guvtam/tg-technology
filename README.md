@@ -33,3 +33,10 @@ en formato internacional), `CONTACT_WHATSAPP_TEMPLATE` y, si corresponde,
 `CONTACT_WHATSAPP_LANGUAGE` (por defecto `es`). Usa una plantilla aprobada
 por Meta con un parámetro de texto en el cuerpo para el número de solicitud.
 Sin esta configuración, se omite el aviso de WhatsApp.
+
+## Formulario de soporte en local
+
+La ruta `/soporte/` registra tickets en TG Management mediante su comando
+`registrar_soporte_web`. En Windows, coloca ambos proyectos en la misma
+carpeta y usa el entorno `.venv` de Management. Si la ruta cambia, configura
+`TG_SUPPORT_CRM_DIR`. Aplica primero las migraciones de Management.

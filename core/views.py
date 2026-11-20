@@ -1,5 +1,8 @@
 import json
 import logging
+import subprocess
+from pathlib import Path
+from uuid import uuid4
 from urllib.request import Request, urlopen
 
 from django.conf import settings
@@ -10,7 +13,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from .forms import ContactRequestForm
+from .forms import ContactRequestForm, SoporteWebForm
 
 
 logger = logging.getLogger(__name__)
@@ -100,3 +103,37 @@ def home(request):
             "contact_form": form,
         },
     )
+
+def soporte(request):
+    if request.method == "POST":
+        form = SoporteWebForm(request.POST)
+        if form.is_valid():
+            crm = Path(settings.TG_SUPPORT_CRM_DIR)
+            try:
+                result = subprocess.run(
+                    [str(crm / ".venv" / "Scripts" / "python.exe"), "-X", "utf8", "-B",
+                     str(crm / "manage.py"), "registrar_soporte_web", "--skip-checks"],
+                    cwd=crm,
+                    input=json.dumps(form.cleaned_data, default=str),
+                    encoding="utf-8",
+                    capture_output=True,
+                    check=True,
+                    timeout=60,
+                )
+                respuesta = json.loads(result.stdout)
+                if respuesta.get("error") == "cliente_no_reconocido":
+                    form.add_error(
+                        "correo",
+                        "Usa el correo registrado como cliente. Si necesitas actualizarlo, contáctanos.",
+                    )
+                    return render(request, "core/soporte.html", {"form": form})
+                codigo = respuesta["codigo"]
+            except (OSError, subprocess.SubprocessError, ValueError, KeyError):
+                logger.warning("El CRM local no confirmó el ticket de soporte")
+                form.add_error(None, "No pudimos confirmar el ticket. Intenta nuevamente.")
+            else:
+                messages.success(request, f"Recibimos tu solicitud de soporte. Tu número de ticket es {codigo}.")
+                return redirect("core:soporte")
+    else:
+        form = SoporteWebForm(initial={"referencia": uuid4()})
+    return render(request, "core/soporte.html", {"form": form})

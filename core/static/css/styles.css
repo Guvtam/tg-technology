@@ -2879,3 +2879,14 @@ RESPONSIVE
         display: none;
     }
 }
+
+.soporte-web-card {
+    max-width: 680px;
+    margin-inline: auto;
+}
+
+.soporte-web-card h1 {
+    margin-bottom: 8px;
+    color: #101a2e;
+    font-size: clamp(26px, 5vw, 36px);
+}
