@@ -35,7 +35,7 @@ class SupportFormFlowTests(SimpleTestCase):
         self.url = reverse("core:soporte")
         self.data = {
             "referencia": str(uuid4()), "nombre": "Ana Prueba",
-            "correo": "ana@example.com", "titulo": "Problema de acceso",
+            "correo": "ana@example.com", "categoria": "incidente", "impacto": "alto", "titulo": "Problema de acceso",
             "descripcion": "No puedo ingresar al sistema.",
         }
 
